@@ -8,7 +8,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Texto de entrada é obrigatório' }, { status: 400 });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    let apiKey = process.env.GEMINI_API_KEY;
+
+    // Check Cloudflare Workers bindings if available
+    try {
+      const { getCloudflareContext } = await import('@opennextjs/cloudflare');
+      const cf = await getCloudflareContext({ async: true });
+      if (cf?.env && typeof (cf.env as Record<string, unknown>).GEMINI_API_KEY === 'string') {
+        apiKey = (cf.env as Record<string, string>).GEMINI_API_KEY;
+      }
+    } catch {
+      // Running in standard Node.js or local environment
+    }
 
     if (!apiKey || apiKey === 'MY_GEMINI_API_KEY') {
       // Smart local heuristic fallback if API key is not configured

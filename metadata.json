@@ -1,0 +1,6 @@
+{
+  "name": "Chaos Control Web",
+  "description": "Aplicativo web de produtividade e gerenciamento GTD com Caixa do Caos, Projetos, Contextos e Plano Diário.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
